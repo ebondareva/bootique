@@ -11,6 +11,8 @@ import io.bootique.annotation.EnvironmentVariables;
 import io.bootique.annotation.LogLevels;
 import io.bootique.command.Command;
 import io.bootique.env.DeclaredVariable;
+import io.bootique.meta.application.ConfigPathOptionMetadata;
+import io.bootique.meta.application.ConfigResourceOptionMetadata;
 import io.bootique.meta.application.OptionMetadata;
 
 import java.util.Map;
@@ -181,7 +183,7 @@ public class BQCoreModuleExtender extends ModuleExtender<BQCoreModuleExtender> {
      */
     public BQCoreModuleExtender addOption(String configPath, String name) {
         contributeOptions().addBinding().toInstance(
-                OptionMetadata.builder(name)
+                ConfigPathOptionMetadata.builder(name)
                         .configPath(configPath)
                         .valueRequired()
                         .build());
@@ -202,7 +204,7 @@ public class BQCoreModuleExtender extends ModuleExtender<BQCoreModuleExtender> {
      */
     public BQCoreModuleExtender addOption(String configPath, String defaultValue, String name) {
         contributeOptions().addBinding().toInstance(
-                OptionMetadata.builder(name)
+                ConfigPathOptionMetadata.builder(name)
                         .configPath(configPath)
                         .defaultValue(defaultValue)
                         .valueOptional()
@@ -222,7 +224,7 @@ public class BQCoreModuleExtender extends ModuleExtender<BQCoreModuleExtender> {
      */
     public BQCoreModuleExtender addConfigResourceOption(String configResourceId, String name) {
         contributeOptions().addBinding().toInstance(
-                OptionMetadata.builder(name)
+                ConfigResourceOptionMetadata.builder(name)
                         .configResource(configResourceId)
                         .valueOptional()
                         .build());

@@ -20,6 +20,8 @@ import io.bootique.config.jackson.MultiFormatJsonNodeParser.ParserType;
 import io.bootique.env.Environment;
 import io.bootique.jackson.JacksonService;
 import io.bootique.log.BootLogger;
+import io.bootique.meta.application.ConfigPathOptionMetadata;
+import io.bootique.meta.application.ConfigResourceOptionMetadata;
 import io.bootique.meta.application.OptionMetadata;
 import joptsimple.OptionSpec;
 
@@ -126,17 +128,17 @@ public class JsonNodeConfigurationFactoryProvider implements Provider<Configurat
                     continue;
                 }
 
-                if (omd.getConfigPath() != null) {
+                if (omd instanceof ConfigPathOptionMetadata) {
                     String cliValue = cli.optionString(omd.getName());
                     if (cliValue == null) {
-                        cliValue = omd.getDefaultValue();
+                        cliValue = ((ConfigPathOptionMetadata) omd).getDefaultValue();
                     }
 
-                    options.put(omd.getConfigPath(), cliValue);
+                    options.put(((ConfigPathOptionMetadata) omd).getConfigPath(), cliValue);
                 }
 
-                if (omd.getConfigResource() != null) {
-                    sources.add(omd.getConfigResource().getUrl());
+                if (omd instanceof ConfigResourceOptionMetadata) {
+                    sources.add(((ConfigResourceOptionMetadata) omd).getConfigResource().getUrl());
                 }
             }
         }

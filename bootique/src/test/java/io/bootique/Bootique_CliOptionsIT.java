@@ -7,6 +7,7 @@ import io.bootique.command.CommandWithMetadata;
 import io.bootique.config.CliConfigurationSource;
 import io.bootique.config.ConfigurationFactory;
 import io.bootique.meta.application.CommandMetadata;
+import io.bootique.meta.application.ConfigPathOptionMetadata;
 import io.bootique.meta.application.OptionMetadata;
 import io.bootique.run.Runner;
 import io.bootique.unit.BQInternalTestFactory;
@@ -17,7 +18,9 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class Bootique_CliOptionsIT {
 
@@ -213,8 +216,7 @@ public class Bootique_CliOptionsIT {
 
             Bean1 bean1 = runtime.getInstance(ConfigurationFactory.class).config(Bean1.class, "");
             Assert.assertEquals("f", bean1.c.m.f);
-        }
-        finally {
+        } finally {
             System.clearProperty("bq.c.m.f");
         }
     }
@@ -360,7 +362,7 @@ public class Bootique_CliOptionsIT {
         public TestOptionCommand1() {
             super(CommandMetadata.builder(TestOptionCommand1.class)
                     .name("cmd-1")
-                    .addOption(OptionMetadata.builder("opt-1")
+                    .addOption(ConfigPathOptionMetadata.builder("opt-1")
                             .configPath("c.m.f").defaultValue("3")));
         }
 
